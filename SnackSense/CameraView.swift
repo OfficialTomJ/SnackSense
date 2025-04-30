@@ -28,10 +28,16 @@ struct CameraPageView: View {
                 Color.black
                     .ignoresSafeArea()
                     .overlay(
-                        Text("Camera Unavailable in Simulator")
-                            .foregroundColor(.white)
-                            .font(.headline)
-                            .padding()
+                        VStack {
+                            Spacer()
+                            Text("Camera Unavailable\nin Simulator")
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.white)
+                                .font(.headline)
+                                .padding()
+                                .frame(width: 200)
+                            Spacer()
+                        }
                     )
 #else
                 CameraPreview(session: cameraModel.session)
@@ -56,7 +62,7 @@ struct CameraPageView: View {
 
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.white.opacity(0.8), lineWidth: 3)
-                    .frame(width: 300, height: 200)
+                    .frame(width: 220, height: 300)
 
                 Text("Position the food label within the frame.")
                     .font(.headline)
@@ -117,7 +123,7 @@ struct CameraPageView: View {
                             }
                         }
 
-                        Spacer(minLength: 40)
+                        Spacer()
                     }
                     .padding(.horizontal, 40)
                     .padding(.bottom, 40)
