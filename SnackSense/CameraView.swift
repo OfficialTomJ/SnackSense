@@ -15,12 +15,14 @@ struct CameraPageView: View {
     @State private var inputImage: UIImage?
     
     var body: some View {
+#warning("Image background refactor: inputImage is now background with zIndex(-1)")
         ZStack {
             if let inputImage = inputImage {
                 Image(uiImage: inputImage)
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
+                    .zIndex(-1)
             } else {
 #if targetEnvironment(simulator)
                 Color.black
@@ -63,37 +65,63 @@ struct CameraPageView: View {
 
                 Spacer()
 
-                HStack {
-                    Button(action: {
-                        showImagePicker = true
-                    }) {
-                        Image(systemName: "photo.on.rectangle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.white)
-                    }
+                if inputImage != nil {
+                    HStack {
+                        Spacer()
 
-                    Spacer()
-
-                    Button(action: {
-                        cameraModel.takePhoto()
-                    }) {
-                        ZStack {
-                            Circle()
-                                .fill(Color.white.opacity(0.2))
-                                .frame(width: 70, height: 70)
-
-                            Circle()
-                                .stroke(Color.white, lineWidth: 4)
-                                .frame(width: 60, height: 60)
+                        Button("Use Photo") {
+                            // Add logic to handle photo confirmation
                         }
-                    }
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
 
-                    Spacer(minLength: 40)
+                        Button("Retake") {
+                            inputImage = nil
+                        }
+                        .padding()
+                        .background(Color.gray.opacity(0.8))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+
+                        Spacer()
+                    }
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 30)
+                } else {
+                    HStack {
+                        Button(action: {
+                            showImagePicker = true
+                        }) {
+                            Image(systemName: "photo.on.rectangle")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(.white)
+                        }
+
+                        Spacer()
+
+                        Button(action: {
+                            cameraModel.takePhoto()
+                        }) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.white.opacity(0.2))
+                                    .frame(width: 70, height: 70)
+
+                                Circle()
+                                    .stroke(Color.white, lineWidth: 4)
+                                    .frame(width: 60, height: 60)
+                            }
+                        }
+
+                        Spacer(minLength: 40)
+                    }
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 40)
                 }
-                .padding(.horizontal, 40)
-                .padding(.bottom, 40)
             }
         }
         .onAppear {
