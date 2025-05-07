@@ -13,6 +13,7 @@ struct CameraPageView: View {
     @ObservedObject var cameraModel: CameraViewModel
     @State private var showImagePicker = false
     @State private var inputImage: UIImage?
+    @State private var showExtractedText = false
     
     var body: some View {
 #warning("Image background refactor: inputImage is now background with zIndex(-1)")
@@ -76,7 +77,18 @@ struct CameraPageView: View {
                         Spacer()
 
                         Button("Use Photo") {
-                            // Add logic to handle photo confirmation
+                            if let image = inputImage {
+                                if let url = cameraModel.saveImageToDocuments(image: image) {
+                                    cameraModel.savedImageURL = url
+                                    cameraModel.extractText(from: image) { text in
+                                        DispatchQueue.main.async {
+                                            print("📄 Extracted Text:\n\(text)")
+                                            cameraModel.extractedText = text
+                                            showExtractedText = true
+                                        }
+                                    }
+                                }
+                            }
                         }
                         .padding()
                         .background(Color.white)
@@ -138,6 +150,11 @@ struct CameraPageView: View {
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: $inputImage)
         }
+        .alert("Extracted Text", isPresented: $showExtractedText, actions: {
+            Button("OK", role: .cancel) {}
+        }, message: {
+            Text(cameraModel.extractedText.isEmpty ? "No text found." : cameraModel.extractedText)
+        })
     }
 }
 

@@ -77,7 +77,7 @@ extension CameraViewModel: AVCapturePhotoCaptureDelegate {
 }
 
 extension CameraViewModel {
-    private func saveImageToDocuments(image: UIImage, name: String = "captured_label.jpg") -> URL? {
+    func saveImageToDocuments(image: UIImage, name: String = "captured_label.jpg") -> URL? {
         guard let data = image.jpegData(compressionQuality: 0.9) else { return nil }
         let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             .appendingPathComponent(name)
@@ -90,7 +90,7 @@ extension CameraViewModel {
         }
     }
 
-    private func extractText(from image: UIImage, completion: @escaping (String) -> Void) {
+    func extractText(from image: UIImage, completion: @escaping (String) -> Void) {
         guard let cgImage = image.cgImage else {
             completion("")
             return
