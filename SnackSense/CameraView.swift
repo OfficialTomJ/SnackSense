@@ -31,7 +31,6 @@ struct CameraPageView: View {
     @ObservedObject var cameraModel: CameraViewModel
     @State private var showImagePicker = false
     @State private var inputImage: UIImage?
-    @State private var showExtractedText = false
     
     var body: some View {
 #warning("Image background refactor: inputImage is now background with zIndex(-1)")
@@ -105,7 +104,6 @@ struct CameraPageView: View {
                                             // Create new ExtractedTextEntry with imagePath
                                             let newEntry = ExtractedTextEntry(content: text, imagePath: url.path)
                                             modelContext.insert(newEntry)
-                                            showExtractedText = true
                                         }
                                     }
                                 }
@@ -171,11 +169,6 @@ struct CameraPageView: View {
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: $inputImage)
         }
-        .alert("Extracted Text", isPresented: $showExtractedText, actions: {
-            Button("OK", role: .cancel) {}
-        }, message: {
-            Text(cameraModel.extractedText.isEmpty ? "No text found." : cameraModel.extractedText)
-        })
     }
 }
 
