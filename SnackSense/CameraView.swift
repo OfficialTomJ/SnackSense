@@ -7,9 +7,27 @@
 
 import SwiftUI
 import AVFoundation
+import SwiftData
+
+
+@Model
+class ExtractedTextEntry {
+    var id: UUID
+    var content: String
+    var timestamp: Date
+    var imagePath: String
+
+    init(content: String, imagePath: String) {
+        self.id = UUID()
+        self.content = content
+        self.timestamp = Date()
+        self.imagePath = imagePath
+    }
+}
 
 
 struct CameraPageView: View {
+    @Environment(\.modelContext) private var modelContext
     @ObservedObject var cameraModel: CameraViewModel
     @State private var showImagePicker = false
     @State private var inputImage: UIImage?
@@ -76,7 +94,20 @@ struct CameraPageView: View {
                         Spacer()
 
                         Button("Use Photo") {
-                            // Add logic to handle photo confirmation
+                            if let image = inputImage {
+                                if let url = cameraModel.saveImageToDocuments(image: image) {
+                                    cameraModel.savedImageURL = url
+                                    cameraModel.extractText(from: image) { text in
+                                        DispatchQueue.main.async {
+                                            print("Extracted Text:\n\(text)")
+                                            cameraModel.extractedText = text
+                                            // Create new ExtractedTextEntry with imagePath
+                                            let newEntry = ExtractedTextEntry(content: text, imagePath: url.path)
+                                            modelContext.insert(newEntry)
+                                        }
+                                    }
+                                }
+                            }
                         }
                         .padding()
                         .background(Color.white)
