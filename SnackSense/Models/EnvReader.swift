@@ -1,7 +1,7 @@
 import Foundation
 
 func loadEnvVariable(_ key: String) -> String? {
-    guard let path = Bundle.main.path(forResource: ".env", ofType: nil),
+    guard let path = Bundle.main.path(forResource: "env 2", ofType: nil),
           let data = try? String(contentsOfFile: path) else {
         return nil
     }
