@@ -40,6 +40,8 @@ struct CameraPageView: View {
                     Image(uiImage: inputImage)
                         .resizable()
                         .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .clipped()
                         .ignoresSafeArea()
                         .zIndex(-1)
                 } else {
