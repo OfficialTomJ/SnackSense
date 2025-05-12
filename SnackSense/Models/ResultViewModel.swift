@@ -12,7 +12,7 @@ class ResultViewModel: ObservableObject {
         """
 
         let body: [String: Any] = [
-            "model": "gpt-4",
+            "model": "gpt-3.5-turbo",
             "messages": [["role": "user", "content": prompt]],
             "temperature": 0.7
         ]
@@ -24,14 +24,17 @@ class ResultViewModel: ObservableObject {
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        if let apiKey = loadEnvVariable("OPENAI_API_KEY") {
-            request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+
+        guard let apiKey = loadEnvVariable("OPENAI_API_KEY") else {
+            return
         }
+
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
 
         isLoading = true
-        URLSession.shared.dataTask(with: request) { data, _, _ in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 self.isLoading = false
             }
@@ -44,7 +47,7 @@ class ResultViewModel: ObservableObject {
 
             let parsed = responseText
                 .components(separatedBy: "\n")
-                .filter { $0.trimmingCharacters(in: .whitespaces).hasPrefix("•") }
+                .filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
 
             DispatchQueue.main.async {
                 self.insights = parsed
