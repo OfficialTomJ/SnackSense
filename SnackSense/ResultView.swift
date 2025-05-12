@@ -2,15 +2,18 @@ import SwiftUI
 import SwiftData
 
 struct ResultView: View {
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     @Query var scanDataList: [ScanData]
     @StateObject private var viewModel = ResultViewModel()
     @State private var showFullImage = false
+    var selectedScan: ScanData? = nil
 
-    var body: some View {
+var body: some View {
+    GeometryReader { geometry in
         ScrollView {
             VStack(spacing: 20) {
-                if let scan = scanDataList.last {
+                if let scan = selectedScan ?? scanDataList.last {
                     // Nutrition Label Image
                     AsyncImage(url: scan.imageUrl) { phase in
                         switch phase {
@@ -19,7 +22,7 @@ struct ResultView: View {
                         case .success(let image):
                             image
                                 .resizable()
-                                .scaledToFit()
+                                .frame(width: geometry.size.width * 0.8)
                                 .cornerRadius(12)
                                 .shadow(radius: 4)
                                 .onTapGesture {
@@ -51,18 +54,23 @@ struct ResultView: View {
                     if viewModel.isLoading {
                         ProgressView("Generating insights...")
                             .padding(.horizontal)
+                            .frame(maxWidth: .infinity)
                     } else if viewModel.insights.isEmpty {
                         Text("No insights found for this label.")
                             .foregroundColor(.secondary)
+                            .font(.system(size: geometry.size.width > 600 ? 20 : 16))
                             .padding(.horizontal)
+                            .frame(maxWidth: .infinity)
                     } else {
                         VStack(alignment: .leading, spacing: 15) {
                             ForEach(viewModel.insights, id: \.self) { insight in
                                 Text(insight)
-                                    .font(.body)
+                                    .font(.system(size: geometry.size.width > 600 ? 20 : 16))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                             }
                         }
                         .padding(.horizontal)
+                        .frame(maxWidth: .infinity)
                     }
 
                     // Scan Another Button
@@ -86,11 +94,12 @@ struct ResultView: View {
             .padding()
         }
         .onAppear {
-            if let text = scanDataList.last?.rawText {
+            if let text = (selectedScan ?? scanDataList.last)?.rawText {
                 viewModel.fetchInsights(from: text)
             }
         }
         .navigationTitle("SnackSense")
         .navigationBarTitleDisplayMode(.inline)
     }
+}
 }
