@@ -31,6 +31,7 @@ struct CameraPageView: View {
     @ObservedObject var cameraModel: CameraViewModel
     @State private var showImagePicker = false
     @State private var inputImage: UIImage?
+    @State private var showResultView = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -104,6 +105,7 @@ struct CameraPageView: View {
                                                 // Create new ExtractedTextEntry with imagePath
                                                 let newEntry = ExtractedTextEntry(content: text, imagePath: url.path)
                                                 modelContext.insert(newEntry)
+                                                showResultView = true
                                             }
                                         }
                                     }
@@ -169,6 +171,12 @@ struct CameraPageView: View {
         }
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: $inputImage)
+        }
+        .sheet(isPresented: $showResultView) {
+            ResultView()
+                .onAppear {
+                    inputImage = nil
+                }
         }
     }
 }
