@@ -33,131 +33,132 @@ struct CameraPageView: View {
     @State private var inputImage: UIImage?
     
     var body: some View {
-#warning("Image background refactor: inputImage is now background with zIndex(-1)")
-        ZStack {
-            if let inputImage = inputImage {
-                Image(uiImage: inputImage)
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                    .zIndex(-1)
-            } else {
-#if targetEnvironment(simulator)
-                Color.black
-                    .ignoresSafeArea()
-                    .overlay(
-                        VStack {
-                            Spacer()
-                            Text("Camera Unavailable\nin Simulator")
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.white)
-                                .font(.headline)
-                                .padding()
-                                .frame(width: 200)
-                            Spacer()
-                        }
-                    )
-#else
-                CameraPreview(session: cameraModel.session)
-                    .ignoresSafeArea()
-#endif
-            }
-
-            VStack {
-                ZStack {
-                    Color.white
-                    Image("snacksense logo horizontal")
+        GeometryReader { geometry in
+            ZStack {
+                if let inputImage = inputImage {
+                    Image(uiImage: inputImage)
                         .resizable()
-                        .scaledToFit()
-                        .frame(height: 128)
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .zIndex(-1)
+                } else {
+    #if targetEnvironment(simulator)
+                    Color.black
+                        .ignoresSafeArea()
+                        .overlay(
+                            VStack {
+                                Spacer()
+                                Text("Camera Unavailable\nin Simulator")
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                                    .font(.headline)
+                                    .padding()
+                                    .frame(width: 200)
+                                Spacer()
+                            }
+                        )
+    #else
+                    CameraPreview(session: cameraModel.session)
+                        .ignoresSafeArea()
+    #endif
                 }
-                .frame(maxWidth: .infinity)
-                .frame(height: 0)
-                .padding(.top, 36)
-                .background(Color.white)
 
-                Spacer()
+                VStack {
+                    ZStack {
+                        Color.white
+                        Image("snacksense logo horizontal")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 128)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 0)
+                    .padding(.top, 36)
+                    .background(Color.white)
 
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.white.opacity(0.8), lineWidth: 3)
-                    .frame(width: 220, height: 300)
+                    Spacer()
 
-                Text("Position the food label within the frame.")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding(.top, 16)
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.white.opacity(0.8), lineWidth: 3)
+                        .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.4)
 
-                Spacer()
+                    Text("Position the food label within the frame.")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(.top, 16)
 
-                if inputImage != nil {
-                    HStack {
-                        Spacer()
+                    Spacer()
 
-                        Button("Use Photo") {
-                            if let image = inputImage {
-                                if let url = cameraModel.saveImageToDocuments(image: image) {
-                                    cameraModel.savedImageURL = url
-                                    cameraModel.extractText(from: image) { text in
-                                        DispatchQueue.main.async {
-                                            print("Extracted Text:\n\(text)")
-                                            cameraModel.extractedText = text
-                                            // Create new ExtractedTextEntry with imagePath
-                                            let newEntry = ExtractedTextEntry(content: text, imagePath: url.path)
-                                            modelContext.insert(newEntry)
+                    if inputImage != nil {
+                        HStack {
+                            Spacer()
+
+                            Button("Use Photo") {
+                                if let image = inputImage {
+                                    if let url = cameraModel.saveImageToDocuments(image: image) {
+                                        cameraModel.savedImageURL = url
+                                        cameraModel.extractText(from: image) { text in
+                                            DispatchQueue.main.async {
+                                                print("Extracted Text:\n\(text)")
+                                                cameraModel.extractedText = text
+                                                // Create new ExtractedTextEntry with imagePath
+                                                let newEntry = ExtractedTextEntry(content: text, imagePath: url.path)
+                                                modelContext.insert(newEntry)
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        .padding()
-                        .background(Color.white)
-                        .foregroundColor(.black)
-                        .cornerRadius(10)
+                            .padding()
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
 
-                        Button("Retake") {
-                            inputImage = nil
-                        }
-                        .padding()
-                        .background(Color.gray.opacity(0.8))
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-
-                        Spacer()
-                    }
-                    .padding(.horizontal, 30)
-                    .padding(.bottom, 30)
-                } else {
-                    HStack {
-                        Button(action: {
-                            showImagePicker = true
-                        }) {
-                            Image(systemName: "photo.on.rectangle")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(.white)
-                        }
-
-                        Spacer()
-
-                        Button(action: {
-                            cameraModel.takePhoto()
-                        }) {
-                            ZStack {
-                                Circle()
-                                    .fill(Color.white.opacity(0.2))
-                                    .frame(width: 70, height: 70)
-
-                                Circle()
-                                    .stroke(Color.white, lineWidth: 4)
-                                    .frame(width: 60, height: 60)
+                            Button("Retake") {
+                                inputImage = nil
                             }
-                        }
+                            .padding()
+                            .background(Color.gray.opacity(0.8))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
 
-                        Spacer()
+                            Spacer()
+                        }
+                        .padding(.horizontal, 30)
+                        .padding(.bottom, 30)
+                    } else {
+                        HStack {
+                            Button(action: {
+                                showImagePicker = true
+                            }) {
+                                Image(systemName: "photo.on.rectangle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width * 0.07, height: geometry.size.width * 0.07)
+                                    .foregroundColor(.white)
+                            }
+
+                            Spacer()
+
+                            Button(action: {
+                                cameraModel.takePhoto()
+                            }) {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.white.opacity(0.2))
+                                        .frame(width: geometry.size.width * 0.18, height: geometry.size.width * 0.18)
+
+                                    Circle()
+                                        .stroke(Color.white, lineWidth: 4)
+                                        .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                                }
+                            }
+
+                            Spacer()
+                        }
+                        .padding(.horizontal, 40)
+                        .padding(.bottom, 40)
                     }
-                    .padding(.horizontal, 40)
-                    .padding(.bottom, 40)
                 }
             }
         }
