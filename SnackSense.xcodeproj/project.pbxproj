@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E285F6632DD1D3FB00BAFFD9 /* env in Resources */ = {isa = PBXBuildFile; fileRef = E285F6622DD1D3FB00BAFFD9 /* env */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E2A4074E2DB7626100D8D181 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E285F6622DD1D3FB00BAFFD9 /* env */ = {isa = PBXFileReference; lastKnownFileType = text; path = env; sourceTree = "<group>"; };
 		E2A4073E2DB7625F00D8D181 /* SnackSense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnackSense.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2A4074D2DB7626100D8D181 /* SnackSenseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnackSenseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2A407572DB7626100D8D181 /* SnackSenseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnackSenseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +84,7 @@
 				E2A407502DB7626100D8D181 /* SnackSenseTests */,
 				E2A4075A2DB7626100D8D181 /* SnackSenseUITests */,
 				E2A4073F2DB7625F00D8D181 /* Products */,
+				E285F6622DD1D3FB00BAFFD9 /* env */,
 			);
 			sourceTree = "<group>";
 		};
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E285F6632DD1D3FB00BAFFD9 /* env in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

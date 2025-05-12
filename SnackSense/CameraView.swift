@@ -102,9 +102,6 @@ struct CameraPageView: View {
                                             DispatchQueue.main.async {
                                                 print("Extracted Text:\n\(text)")
                                                 cameraModel.extractedText = text
-                                                // Create new ExtractedTextEntry with imagePath
-                                                let newEntry = ExtractedTextEntry(content: text, imagePath: url.path)
-                                                modelContext.insert(newEntry)
                                                 showResultView = true
                                             }
                                         }
@@ -173,10 +170,7 @@ struct CameraPageView: View {
             ImagePicker(image: $inputImage)
         }
         .sheet(isPresented: $showResultView) {
-            ResultView()
-                .onAppear {
-                    inputImage = nil
-                }
+            ResultView(rawText: cameraModel.extractedText, imageURL: cameraModel.savedImageURL)
         }
     }
 }

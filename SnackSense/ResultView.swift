@@ -2,20 +2,20 @@ import SwiftUI
 import SwiftData
 
 struct ResultView: View {
-    @Environment(\.modelContext) private var modelContext
+    let rawText: String
+    let imageURL: URL?
+
     @Environment(\.dismiss) var dismiss
-    @Query var scanDataList: [ScanData]
     @StateObject private var viewModel = ResultViewModel()
     @State private var showFullImage = false
-    var selectedScan: ScanData? = nil
 
 var body: some View {
     GeometryReader { geometry in
         ScrollView {
             VStack(spacing: 20) {
-                if let scan = selectedScan ?? scanDataList.last {
+                if let imageURL = imageURL {
                     // Nutrition Label Image
-                    AsyncImage(url: scan.imageUrl) { phase in
+                    AsyncImage(url: imageURL) { phase in
                         switch phase {
                         case .empty:
                             ProgressView()
@@ -94,9 +94,9 @@ var body: some View {
             .padding()
         }
         .onAppear {
-            if let text = (selectedScan ?? scanDataList.last)?.rawText {
-                viewModel.fetchInsights(from: text)
-            }
+            print("DEBUG - rawText: \(rawText)")
+            print("DEBUG - imageURL: \(String(describing: imageURL))")
+            viewModel.fetchInsights(from: rawText)
         }
         .navigationTitle("SnackSense")
         .navigationBarTitleDisplayMode(.inline)
