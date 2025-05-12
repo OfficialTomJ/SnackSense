@@ -12,8 +12,9 @@ struct ScanHistoryView: View {
     @Query(sort: \ScanData.timestamp, order: .reverse) var scans: [ScanData]
 
     var body: some View {
+        /*
         List(scans) { scan in
-            NavigationLink(destination: ResultView(selectedScan: scan)) {
+            NavigationLink(destination: ResultView(rawText: scan.rawText, image: UIImage(contentsOfFile: scan.imagePath))) {
                 VStack(alignment: .leading) {
                     Text(scan.timestamp.formatted(date: .abbreviated, time: .shortened))
                         .font(.headline)
@@ -23,10 +24,9 @@ struct ScanHistoryView: View {
                 }
             }
         }
-        .navigationTitle("Scan History")
+        */
     }
 }
 #Preview {
     StartView()
 }
-
