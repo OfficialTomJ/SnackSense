@@ -45,7 +45,7 @@ struct StartView: View {
                         .padding(.horizontal, 30)
                     
                 }
-                
+                /*
                 NavigationLink(destination: ScanHistoryView()) {
                     Text("View Scan History")
                         .padding()
@@ -55,7 +55,7 @@ struct StartView: View {
                         .cornerRadius(10)
                         .padding(.horizontal)
                 }
-
+                */
 
                 Spacer()
             }
