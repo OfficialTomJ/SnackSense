@@ -90,6 +90,9 @@ URLSession.shared.dataTask(with: request) { data, response, error in
 Pull requests are welcome. For major changes, please open an issue first to discuss what you’d like to change.
 
 Project contributors:
+
 25020443 - Kartikay Singh
+
 25465345 - Wai Ming Ronan Soh
+
 24663472 - Thomas Johnston
