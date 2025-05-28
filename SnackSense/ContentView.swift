@@ -15,7 +15,7 @@ struct ContentView: View {
     //Homeview
     var body: some View {
                NavigationStack {
-                   StartView()
+                   LoginView()
                }
            }
 
