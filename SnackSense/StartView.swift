@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Auth0
+import FirebaseAuth
 
 struct StartView: View {
     @State private var shouldLogout = false
@@ -86,19 +86,13 @@ struct StartView: View {
     }
     
     private func logout() {
-        Auth0
-            .webAuth()
-            .clearSession { result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success:
-                        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-                        shouldLogout = true
-                    case .failure(let error):
-                        print("Logout failed: \(error)")
-                    }
-                }
-            }
+        do {
+            try Auth.auth().signOut()
+            UserDefaults.standard.set(false, forKey: "isLoggedIn")
+            shouldLogout = true
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
 }
 #Preview {

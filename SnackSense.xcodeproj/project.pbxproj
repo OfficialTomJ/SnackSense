@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E23CC3612DEFD9C400F58BB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E23CC3602DEFD9C400F58BB3 /* GoogleService-Info.plist */; };
+		E23CC3642DEFDA6900F58BB3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E23CC3632DEFDA6900F58BB3 /* FirebaseAuth */; };
+		E23CC3662DEFDA6900F58BB3 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = E23CC3652DEFDA6900F58BB3 /* FirebaseCore */; };
+		E23CC3682DEFDA6900F58BB3 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = E23CC3672DEFDA6900F58BB3 /* FirebaseDatabase */; };
+		E23CC36A2DEFDA6900F58BB3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E23CC3692DEFDA6900F58BB3 /* FirebaseFirestore */; };
+		E23CC36C2DEFDA6900F58BB3 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = E23CC36B2DEFDA6900F58BB3 /* FirebaseFunctions */; };
+		E23CC36E2DEFDA6900F58BB3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E23CC36D2DEFDA6900F58BB3 /* FirebaseStorage */; };
 		E29529F12DE6E2BA00D0D81C /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = E29529F02DE6E2BA00D0D81C /* Auth0 */; };
 		E29529F72DE6E3DB00D0D81C /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29529F62DE6E3DB00D0D81C /* Auth0.plist */; };
 /* End PBXBuildFile section */
@@ -29,28 +36,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E23CC3602DEFD9C400F58BB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E29529F62DE6E3DB00D0D81C /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		E2A4073E2DB7625F00D8D181 /* SnackSense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnackSense.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2A4074D2DB7626100D8D181 /* SnackSenseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnackSenseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2A407572DB7626100D8D181 /* SnackSenseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnackSenseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E29529F92DE6E7DB00D0D81C /* Exceptions for "SnackSense" folder in "SnackSense" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = E2A4073D2DB7625F00D8D181 /* SnackSense */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E2A407402DB7625F00D8D181 /* SnackSense */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				E29529F92DE6E7DB00D0D81C /* Exceptions for "SnackSense" folder in "SnackSense" target */,
-			);
 			path = SnackSense;
 			sourceTree = "<group>";
 		};
@@ -72,6 +67,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E29529F12DE6E2BA00D0D81C /* Auth0 in Frameworks */,
+				E23CC3662DEFDA6900F58BB3 /* FirebaseCore in Frameworks */,
+				E23CC3682DEFDA6900F58BB3 /* FirebaseDatabase in Frameworks */,
+				E23CC36C2DEFDA6900F58BB3 /* FirebaseFunctions in Frameworks */,
+				E23CC36E2DEFDA6900F58BB3 /* FirebaseStorage in Frameworks */,
+				E23CC36A2DEFDA6900F58BB3 /* FirebaseFirestore in Frameworks */,
+				E23CC3642DEFDA6900F58BB3 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +109,7 @@
 				E2A4075A2DB7626100D8D181 /* SnackSenseUITests */,
 				E29529EF2DE6E2BA00D0D81C /* Frameworks */,
 				E2A4073F2DB7625F00D8D181 /* Products */,
+				E23CC3602DEFD9C400F58BB3 /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -142,6 +144,12 @@
 			name = SnackSense;
 			packageProductDependencies = (
 				E29529F02DE6E2BA00D0D81C /* Auth0 */,
+				E23CC3632DEFDA6900F58BB3 /* FirebaseAuth */,
+				E23CC3652DEFDA6900F58BB3 /* FirebaseCore */,
+				E23CC3672DEFDA6900F58BB3 /* FirebaseDatabase */,
+				E23CC3692DEFDA6900F58BB3 /* FirebaseFirestore */,
+				E23CC36B2DEFDA6900F58BB3 /* FirebaseFunctions */,
+				E23CC36D2DEFDA6900F58BB3 /* FirebaseStorage */,
 			);
 			productName = SnackSense;
 			productReference = E2A4073E2DB7625F00D8D181 /* SnackSense.app */;
@@ -227,6 +235,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				E2DF1B102DE5A3A2004DA23A /* XCRemoteSwiftPackageReference "Auth0" */,
+				E23CC3622DEFDA6900F58BB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E2A4073F2DB7625F00D8D181 /* Products */;
@@ -246,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E29529F72DE6E3DB00D0D81C /* Auth0.plist in Resources */,
+				E23CC3612DEFD9C400F58BB3 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,7 +446,7 @@
 				DEVELOPMENT_TEAM = 2Y4Z3VN3ZC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SnackSense/Info.plist;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "SnackSense uses your camera to scan food labels and provide nutrition information.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -466,7 +476,7 @@
 				DEVELOPMENT_TEAM = 2Y4Z3VN3ZC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SnackSense/Info.plist;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "SnackSense uses your camera to scan food labels and provide nutrition information.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -600,6 +610,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E23CC3622DEFDA6900F58BB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.14.0;
+			};
+		};
 		E2DF1B102DE5A3A2004DA23A /* XCRemoteSwiftPackageReference "Auth0" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/auth0/Auth0.swift";
@@ -611,6 +629,36 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E23CC3632DEFDA6900F58BB3 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E23CC3622DEFDA6900F58BB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		E23CC3652DEFDA6900F58BB3 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E23CC3622DEFDA6900F58BB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		E23CC3672DEFDA6900F58BB3 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E23CC3622DEFDA6900F58BB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		E23CC3692DEFDA6900F58BB3 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E23CC3622DEFDA6900F58BB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		E23CC36B2DEFDA6900F58BB3 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E23CC3622DEFDA6900F58BB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		E23CC36D2DEFDA6900F58BB3 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E23CC3622DEFDA6900F58BB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		E29529F02DE6E2BA00D0D81C /* Auth0 */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E2DF1B102DE5A3A2004DA23A /* XCRemoteSwiftPackageReference "Auth0" */;
