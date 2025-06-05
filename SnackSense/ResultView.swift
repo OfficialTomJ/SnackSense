@@ -101,7 +101,12 @@ struct ResultView: View {
             }
             .onAppear {
                 print("DEBUG - rawText: \(rawText)")
-                viewModel.fetchInsights(from: rawText)
+                if let imageURL = imageURL,
+                   let imageData = try? Data(contentsOf: imageURL) {
+                    viewModel.fetchInsights(from: rawText, imageData: imageData)
+                } else {
+                    viewModel.fetchInsights(from: rawText, imageData: Data())
+                }
             }
             .navigationTitle("SnackSense")
             .navigationBarTitleDisplayMode(.inline)
