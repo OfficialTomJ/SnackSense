@@ -4,6 +4,8 @@ import SwiftData
 struct ResultView: View {
     let rawText: String
     let imageURL: URL?
+    let isFromHistory: Bool
+    let savedInsights: [String]
 
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = ResultViewModel()
@@ -61,34 +63,39 @@ struct ResultView: View {
                             ProgressView("Generating insights...")
                                 .padding(.horizontal)
                                 .frame(maxWidth: .infinity)
-                        } else if viewModel.insights.isEmpty {
-                            Text("No insights found for this label.")
-                                .foregroundColor(.secondary)
-                                .font(.system(size: geometry.size.width > 600 ? 20 : 16))
+                        } else {
+                            let insightsToShow = isFromHistory ? savedInsights : viewModel.insights
+                            if insightsToShow.isEmpty {
+                                Text("No insights found for this label.")
+                                    .foregroundColor(.secondary)
+                                    .font(.system(size: geometry.size.width > 600 ? 20 : 16))
+                                    .padding(.horizontal)
+                                    .frame(maxWidth: .infinity)
+                            } else {
+                                VStack(alignment: .leading, spacing: 15) {
+                                    ForEach(insightsToShow, id: \.self) { insight in
+                                        Text(insight)
+                                            .font(.system(size: geometry.size.width > 600 ? 20 : 16))
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                    }
+                                }
                                 .padding(.horizontal)
                                 .frame(maxWidth: .infinity)
-                        } else {
-                            VStack(alignment: .leading, spacing: 15) {
-                                ForEach(viewModel.insights, id: \.self) { insight in
-                                    Text(insight)
-                                        .font(.system(size: geometry.size.width > 600 ? 20 : 16))
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                }
                             }
-                            .padding(.horizontal)
-                            .frame(maxWidth: .infinity)
                         }
 
                         // Scan Another Button
-                        Button("Scan Another") {
-                            dismiss()
+                        if !isFromHistory {
+                            Button("Scan Another") {
+                                dismiss()
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .padding(.horizontal)
                         }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding(.horizontal)
                     } else {
                         Text("No scan data available.")
                             .foregroundColor(.secondary)
@@ -101,7 +108,23 @@ struct ResultView: View {
             }
             .onAppear {
                 print("DEBUG - rawText: \(rawText)")
-                viewModel.fetchInsights(from: rawText)
+                if !isFromHistory {
+                    if let imageURL = imageURL {
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            if let imageData = try? Data(contentsOf: imageURL) {
+                                DispatchQueue.main.async {
+                                    viewModel.fetchInsights(from: rawText, imageData: imageData)
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    viewModel.fetchInsights(from: rawText, imageData: Data())
+                                }
+                            }
+                        }
+                    } else {
+                        viewModel.fetchInsights(from: rawText, imageData: Data())
+                    }
+                }
             }
             .navigationTitle("SnackSense")
             .navigationBarTitleDisplayMode(.inline)

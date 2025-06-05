@@ -6,49 +6,83 @@
 //
 
 import SwiftUI
-import Auth0
+import FirebaseAuth
 
 struct LoginView: View {
     @State private var isAuthenticated = false
-    @State private var accessToken: String?
     @State private var loginError: String?
     @State private var navigateToStart = false
+    @State private var email = ""
+    @State private var password = ""
+    @State private var isLoginMode = true
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
-                Text("SnackSense Login")
+                Text(isLoginMode ? "Login to SnackSense" : "Create an Account")
                     .font(.title)
                     .fontWeight(.bold)
 
-                if isAuthenticated {
+                TextField("Email", text: $email)
+                    .autocapitalization(.none)
+                    .keyboardType(.emailAddress)
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
 
-                    Button("Log Out") {
-                        Auth0.webAuth().clearSession { result in
-                            isAuthenticated = false
-                            UserDefaults.standard.set(false, forKey: "isLoggedIn")
-                            accessToken = nil
+                SecureField("Password", text: $password)
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
+
+                if let error = loginError {
+                    Text("❌ \(error)")
+                        .foregroundColor(.red)
+                }
+
+                Button(isLoginMode ? "Log In" : "Sign Up") {
+                    if isLoginMode {
+                        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+                            if let error = error {
+                                self.loginError = error.localizedDescription
+                            } else {
+                                self.isAuthenticated = true
+                                UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                                self.navigateToStart = true
+                            }
+                        }
+                    } else {
+                        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                            if let error = error {
+                                self.loginError = error.localizedDescription
+                            } else {
+                                self.isAuthenticated = true
+                                UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                                self.navigateToStart = true
+                            }
                         }
                     }
-                } else {
-                    Button("Login with Auth0") {
-                        Auth0.webAuth()
-                            .start { result in
-                                switch result {
-                                case .success(let credentials):
-                                    self.isAuthenticated = true
-                                    self.accessToken = credentials.accessToken
-                                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                                    print("✅ Access token: \(credentials.accessToken ?? "")")
-                                    self.navigateToStart = true
-                                case .failure(let error):
-                                    self.loginError = error.localizedDescription
-                                    print("❌ Login failed: \(error)")
-                                }
-                            }
-                    }
-                    .buttonStyle(.borderedProminent)
                 }
+                .buttonStyle(.borderedProminent)
+
+                Button(isLoginMode ? "Don't have an account? Sign Up" : "Already have an account? Log In") {
+                    isLoginMode.toggle()
+                    loginError = nil
+                }
+                .font(.footnote)
+
+                if isAuthenticated {
+                    Button("Log Out") {
+                        do {
+                            try Auth.auth().signOut()
+                            self.isAuthenticated = false
+                            UserDefaults.standard.set(false, forKey: "isLoggedIn")
+                        } catch let signOutError as NSError {
+                            print("❌ Sign out error: \(signOutError)")
+                        }
+                    }
+                }
+
                 NavigationLink(destination: StartView(), isActive: $navigateToStart) {
                     EmptyView()
                 }
