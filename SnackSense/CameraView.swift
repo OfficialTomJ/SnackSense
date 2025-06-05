@@ -172,7 +172,7 @@ struct CameraPageView: View {
             ImagePicker(image: $inputImage)
         }
         .sheet(isPresented: $showResultView) {
-            ResultView(rawText: cameraModel.extractedText, imageURL: cameraModel.savedImageURL)
+            ResultView(rawText: cameraModel.extractedText, imageURL: cameraModel.savedImageURL, isFromHistory: false, savedInsights: [])
         }
     }
 }
